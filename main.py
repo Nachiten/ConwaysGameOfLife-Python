@@ -5,19 +5,21 @@ pygame.init()
 
 # Funciones
 def vecinosVivosdDe(matriz, posicion):
-
     posFila = posicion[0]
     posCol = posicion[1]
 
     cantVivas = 0
 
-    for unaFila in range(posFila - 1, posFila + 2):
-        for unaCol in range(posCol - 1, posCol + 2):
-            # print("Analizando la fila: " + str(unaFila) + " Y la columna: " + str(unaCol))
-            if (unaFila < 0) | (unaFila >= cantFilas) | (unaCol < 0) | (unaCol >= cantColumnas) | \
-                    ((unaFila == posFila) & (unaCol == posCol)):
+    # print("posFila: " + str(posFila) + " posCol: " + str(posCol))
+
+    for unaFilaFuncion in range(posFila - 1, posFila + 2):
+        for unaColFuncion in range(posCol - 1, posCol + 2):
+            # print("Fila: " + str(unaFilaFuncion) + " Columna: " + str(unaColFuncion))
+            if (unaFilaFuncion < 0) | (unaFilaFuncion >= cantFilas) | \
+               (unaColFuncion < 0) | (unaColFuncion >= cantColumnas) | \
+               ((unaFilaFuncion == posFila) & (unaColFuncion == posCol)):
                 continue
-            if matriz[unaFila][unaCol] == 1:
+            if matriz[unaFilaFuncion][unaColFuncion] == 1:
                 cantVivas += 1
 
     return cantVivas
@@ -36,18 +38,21 @@ cantColumnas = 30
 # Configuracion
 anchoVentana = 600
 altoVentana = 600
-segundosDelay = 1
+segundosDelay = 2
 
 ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 
 pygame.display.set_caption("Primer Juego")
 
-bloquesGrises = [(2, 2), (2, 4), (15, 15), (25, 29), (0, 0), (0, 1), (0, 2), (1, 1), (1,0)]
+bloquesGrises = [(2, 2), (2, 4), (25, 29), (0, 0), (0, 1), (0, 2), (1, 1),
+                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16), (17, 17), (17, 18), (17, 19)]
 
 matrizVieja = [[0 for a in range(cantFilas)] for b in range(cantColumnas)]
 matrizNueva = [[0 for a in range(cantFilas)] for b in range(cantColumnas)]
 
 run = True
+
+primeraVuelta = True
 
 while run:
     pygame.time.delay(segundosDelay * 1000)
@@ -62,13 +67,17 @@ while run:
 
             colores = (100, 100, 100)
 
-            for (unaFila, unaCol) in bloquesGrises:
-                if (laFila == unaFila) & (laColumna == unaCol):
+            if primeraVuelta:
+                for (unaFila, unaCol) in bloquesGrises:
+                    if (laFila == unaFila) & (laColumna == unaCol):
+                        colores = (255, 255, 255)
+                        matrizVieja[laFila][laColumna] = 1
+                        break
+                    else:
+                        matrizVieja[laFila][laColumna] = 0
+            else:
+                if matrizVieja[laFila][laColumna] == 1:
                     colores = (255, 255, 255)
-                    matrizVieja[laFila][laColumna] = 1
-                    break
-                else:
-                    matrizVieja[laFila][laColumna] = 0
 
             # random.randrange(256)
             pygame.draw.rect(ventana,
@@ -76,34 +85,51 @@ while run:
                              (x + laColumna * (ancho + 3), y + laFila * (alto + 3), ancho,
                               alto))  # posx, posy, ancho, alto
 
-    '''
+    primeraVuelta = False
+
     for laFila in range(0, cantColumnas):
         for laColumna in range(0, cantFilas):
             # La celda está viva
-            if (matrizVieja[laFila][laFila] == 1):
-                if (vecinosVivosdDe(matrizVieja, (0, 0)):
-                    hola
+            if matrizVieja[laFila][laColumna] == 1:
+                if (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 2) | \
+                   (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3):
+                    matrizNueva[laFila][laColumna] = 1
+                else:
+                    matrizNueva[laFila][laColumna] = 0
             # La celda está muerta
             else:
-    '''
+                if vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3:
+                    matrizNueva[laFila][laColumna] = 1
+                else:
+                    matrizNueva[laFila][laColumna] = 0
 
-    print(vecinosVivosdDe(matrizVieja, (0, 0)))
+    # print("Vecinos vivos de 15,16: " + str(vecinosVivosdDe(matrizVieja, (16, 17))))
 
     '''
+    print("Matriz vieja: ")
+
     for laFila in range(0, cantColumnas):
         for laColumna in range(0, cantFilas):
-            print(Matrix[laFila][laColumna], end="")
+            print(matrizVieja[laFila][laColumna], end="")
+        print("")
+
+    print("Matriz nueva: ")
+
+    for laFila in range(0, cantColumnas):
+        for laColumna in range(0, cantFilas):
+            print(matrizNueva[laFila][laColumna], end="")
         print("")
     '''
 
-    mouse = pygame.mouse.get_pos()
+    # Pasar todos los datos de la matriz nueva a la vieja para repetir ciclo
+    for laFila in range(0, cantColumnas):
+        for laColumna in range(0, cantFilas):
+            matrizVieja[laFila][laColumna] = matrizNueva[laFila][laColumna]
+
+    # mouse = pygame.mouse.get_pos()
     # print(mouse)
 
     # Actualizar display
     pygame.display.update()
 
 pygame.quit()
-
-
-
-
