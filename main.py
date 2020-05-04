@@ -33,19 +33,19 @@ y = 20
 ancho = 10
 alto = 10
 # Matriz
-cantFilas = 30
-cantColumnas = 30
+cantFilas = 60
+cantColumnas = 60
 # Configuracion
-anchoVentana = 600
-altoVentana = 600
-segundosDelay = 2
+anchoVentana = 800
+altoVentana = 800
+segundosDelay = 1
 
 ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 
 pygame.display.set_caption("Primer Juego")
 
 bloquesGrises = [(2, 2), (2, 4), (25, 29), (0, 0), (0, 1), (0, 2), (1, 1),
-                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16), (17, 17), (17, 18), (17, 19)]
+                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16), (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
 
 matrizVieja = [[0 for a in range(cantFilas)] for b in range(cantColumnas)]
 matrizNueva = [[0 for a in range(cantFilas)] for b in range(cantColumnas)]
@@ -55,7 +55,7 @@ run = True
 primeraVuelta = True
 
 while run:
-    pygame.time.delay(segundosDelay * 1000)
+    pygame.time.delay(segundosDelay * 100)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
