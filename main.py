@@ -73,7 +73,6 @@ def generarMatrizPrimeraVez():
                 else:
                     matrizVieja[filaFuncion][columnaFuncion] = 0
 
-            # random.randrange(256)
             pygame.draw.rect(ventana,
                              colores,  # Color
                              (x + columnaFuncion * (ancho + 3), y + filaFuncion * (alto + 3), ancho,
@@ -106,6 +105,30 @@ def pasarMatrizNuevaAVieja():
             matrizVieja[laFila][laColumna] = matrizNueva[laFila][laColumna]
 
 
+def manejarPausa(estaPausado, estaCorriendo):
+    # if not estaPausado:
+    # print("NO esta en pausa")
+
+    radioCirculo = 20
+    anchoCirculo = 10
+
+    while True:
+        pygame.time.delay(200)
+        for unEvento in pygame.event.get():
+            if unEvento.type == pygame.KEYDOWN:
+                estaPausado = not estaPausado
+
+        if not estaPausado:
+            pygame.draw.circle(ventana, (0, 255, 0), (850, 50), radioCirculo, anchoCirculo)
+            return estaPausado
+        # print("SI esta en pausa")
+
+        pygame.draw.circle(ventana, (255, 0, 0), (850, 50), radioCirculo, anchoCirculo)
+
+        # Actualizar display
+        pygame.display.update()
+
+
 # Variables Importantes [Globales]
 # Posicion Bloques
 x = 20
@@ -120,11 +143,10 @@ cantColumnas = 60
 anchoVentana = 900
 altoVentana = 900
 segundosDelay = 1
+run = True
+estaEnPausa = True
 
-# Setup Inicial
-ventana = pygame.display.set_mode((anchoVentana, altoVentana))
-
-pygame.display.set_caption("Primer Juego")
+pygame.display.set_caption("El juego de la vida de Conway")
 
 bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
                  (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
@@ -133,15 +155,20 @@ bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25
 matrizVieja = [[0 for vx in range(cantFilas)] for vy in range(cantColumnas)]
 matrizNueva = [[0 for nx in range(cantFilas)] for ny in range(cantColumnas)]
 
-run = True
+# Setup Inicial
+ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 
 generarMatrizPrimeraVez()
+pygame.display.update()
+
 
 # Bucle infinito
 while run:
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    estaEnPausa = manejarPausa(estaEnPausa, run)
+
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
             run = False
 
     generarMatrizVieja()
@@ -160,4 +187,8 @@ pygame.quit()
 '''
 # mouse = pygame.mouse.get_pos()
 # print(mouse)
+
+for unEvento in pygame.event.get():
+    if unEvento.type == pygame.QUIT:
+        estaCorriendo = False
 '''
