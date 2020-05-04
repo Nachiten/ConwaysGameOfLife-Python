@@ -41,70 +41,46 @@ def printearMatrices():
         print("")
 
 
-# Variables Importantes
-# Posicion Bloques
-x = 20
-y = 20
-# Tamaño bloques
-ancho = 10
-alto = 10
-# Matriz
-cantFilas = 60
-cantColumnas = 60
-# Configuracion
-anchoVentana = 800
-altoVentana = 800
-segundosDelay = 1
-
-# Setup Inicial
-ventana = pygame.display.set_mode((anchoVentana, altoVentana))
-
-pygame.display.set_caption("Primer Juego")
-
-bloquesGrises = [(2, 2), (2, 4), (25, 29), (0, 0), (0, 1), (0, 2), (1, 1),
-                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
-                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
-
-matrizVieja = [[0 for vx in range(cantFilas)] for vy in range(cantColumnas)]
-matrizNueva = [[0 for nx in range(cantFilas)] for ny in range(cantColumnas)]
-
-run = True
-
-primeraVuelta = True
-
-# Bucle infinito
-while run:
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
+def generarMatrizVieja():
     # Generar matriz de cuadrados
-    for laFila in range(0, cantFilas):
-        for laColumna in range(0, cantColumnas):
+    for filaFuncion in range(0, cantFilas):
+        for columnaFuncion in range(0, cantColumnas):
 
             colores = (100, 100, 100)
 
-            if primeraVuelta:
-                for (unaFila, unaCol) in bloquesGrises:
-                    if (laFila == unaFila) & (laColumna == unaCol):
-                        colores = (255, 255, 255)
-                        matrizVieja[laFila][laColumna] = 1
-                        break
-                    else:
-                        matrizVieja[laFila][laColumna] = 0
-            else:
-                if matrizVieja[laFila][laColumna] == 1:
-                    colores = (255, 255, 255)
+            if matrizVieja[filaFuncion][columnaFuncion] == 1:
+                colores = (255, 255, 255)
 
             # random.randrange(256)
             pygame.draw.rect(ventana,
                              colores,  # Color
-                             (x + laColumna * (ancho + 3), y + laFila * (alto + 3), ancho,
+                             (x + columnaFuncion * (ancho + 3), y + filaFuncion * (alto + 3), ancho,
                               alto))  # posx, posy, ancho, alto
 
-    primeraVuelta = False
 
+def generarMatrizPrimeraVez():
+    # Generar matriz de cuadrados
+    for filaFuncion in range(0, cantFilas):
+        for columnaFuncion in range(0, cantColumnas):
+
+            colores = (100, 100, 100)
+
+            for (unaFila, unaCol) in bloquesGrises:
+                if (filaFuncion == unaFila) & (columnaFuncion == unaCol):
+                    colores = (255, 255, 255)
+                    matrizVieja[filaFuncion][columnaFuncion] = 1
+                    break
+                else:
+                    matrizVieja[filaFuncion][columnaFuncion] = 0
+
+            # random.randrange(256)
+            pygame.draw.rect(ventana,
+                             colores,  # Color
+                             (x + columnaFuncion * (ancho + 3), y + filaFuncion * (alto + 3), ancho,
+                              alto))  # posx, posy, ancho, alto
+
+
+def generarMatrizNueva():
     # Generar matrizNueva (basandose en datos de matrizVieja)
     for laFila in range(0, cantFilas):
         for laColumna in range(0, cantColumnas):
@@ -122,19 +98,66 @@ while run:
                 else:
                     matrizNueva[laFila][laColumna] = 0
 
-    # print("Vecinos vivos de 15,16: " + str(vecinosVivosdDe(matrizVieja, (16, 17))))
 
+def pasarMatrizNuevaAVieja():
     # Pasar todos los datos de matrizNueva a matrizVieja para repetir ciclo
     for laFila in range(0, cantFilas):
         for laColumna in range(0, cantColumnas):
             matrizVieja[laFila][laColumna] = matrizNueva[laFila][laColumna]
 
-    # mouse = pygame.mouse.get_pos()
-    # print(mouse)
+
+# Variables Importantes [Globales]
+# Posicion Bloques
+x = 20
+y = 20
+# Tamaño bloques
+ancho = 10
+alto = 10
+# Matriz
+cantFilas = 60
+cantColumnas = 60
+# Configuracion
+anchoVentana = 900
+altoVentana = 900
+segundosDelay = 1
+
+# Setup Inicial
+ventana = pygame.display.set_mode((anchoVentana, altoVentana))
+
+pygame.display.set_caption("Primer Juego")
+
+bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
+                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
+                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
+
+matrizVieja = [[0 for vx in range(cantFilas)] for vy in range(cantColumnas)]
+matrizNueva = [[0 for nx in range(cantFilas)] for ny in range(cantColumnas)]
+
+run = True
+
+generarMatrizPrimeraVez()
+
+# Bucle infinito
+while run:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+    generarMatrizVieja()
+
+    generarMatrizNueva()
+
+    pasarMatrizNuevaAVieja()
 
     # Actualizar display
     pygame.display.update()
 
-    pygame.time.delay(segundosDelay * 1000)
+    pygame.time.delay(segundosDelay * 200)
 
 pygame.quit()
+
+'''
+# mouse = pygame.mouse.get_pos()
+# print(mouse)
+'''
