@@ -4,6 +4,22 @@ pygame.init()
 
 
 # Funciones
+def printearMatrices():
+    print("Matriz vieja: ")
+
+    for filaFuncion in range(0, cantFilas):
+        for columnaFuncion in range(0, cantColumnas):
+            print(matrizVieja[filaFuncion][columnaFuncion], end="")
+        print("")
+
+    print("Matriz nueva: ")
+
+    for filaFuncion in range(0, cantFilas):
+        for columnaFuncion in range(0, cantColumnas):
+            print(matrizNueva[filaFuncion][columnaFuncion], end="")
+        print("")
+
+
 def vecinosVivosdDe(matriz, posicion):
     posFila = posicion[0]
     posCol = posicion[1]
@@ -25,23 +41,8 @@ def vecinosVivosdDe(matriz, posicion):
     return cantVivas
 
 
-def printearMatrices():
-    print("Matriz vieja: ")
-
-    for filaFuncion in range(0, cantFilas):
-        for columnaFuncion in range(0, cantColumnas):
-            print(matrizVieja[filaFuncion][columnaFuncion], end="")
-        print("")
-
-    print("Matriz nueva: ")
-
-    for filaFuncion in range(0, cantFilas):
-        for columnaFuncion in range(0, cantColumnas):
-            print(matrizNueva[filaFuncion][columnaFuncion], end="")
-        print("")
-
-
 def generarMatrizVieja():
+    print("generarMatrizVieja")
     # Generar matriz de cuadrados
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
@@ -58,7 +59,28 @@ def generarMatrizVieja():
                               alto))  # posx, posy, ancho, alto
 
 
+def generarMatrizNueva():
+    print("generarMatrizNueva")
+    # Generar matrizNueva (basandose en datos de matrizVieja)
+    for laFila in range(0, cantFilas):
+        for laColumna in range(0, cantColumnas):
+            # La celda está viva
+            if matrizVieja[laFila][laColumna] == 1:
+                if (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 2) | \
+                        (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3):
+                    matrizNueva[laFila][laColumna] = 1
+                else:
+                    matrizNueva[laFila][laColumna] = 0
+            # La celda está muerta
+            else:
+                if vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3:
+                    matrizNueva[laFila][laColumna] = 1
+                else:
+                    matrizNueva[laFila][laColumna] = 0
+
+
 def generarMatrizPrimeraVez():
+    print("generarMatrizPrimeraVez")
     # Generar matriz de cuadrados
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
@@ -79,54 +101,63 @@ def generarMatrizPrimeraVez():
                               alto))  # posx, posy, ancho, alto
 
 
-def generarMatrizNueva():
-    # Generar matrizNueva (basandose en datos de matrizVieja)
-    for laFila in range(0, cantFilas):
-        for laColumna in range(0, cantColumnas):
-            # La celda está viva
-            if matrizVieja[laFila][laColumna] == 1:
-                if (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 2) | \
-                        (vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3):
-                    matrizNueva[laFila][laColumna] = 1
-                else:
-                    matrizNueva[laFila][laColumna] = 0
-            # La celda está muerta
-            else:
-                if vecinosVivosdDe(matrizVieja, (laFila, laColumna)) == 3:
-                    matrizNueva[laFila][laColumna] = 1
-                else:
-                    matrizNueva[laFila][laColumna] = 0
-
-
 def pasarMatrizNuevaAVieja():
+    print("pasarMatrizNuevaAVieja")
     # Pasar todos los datos de matrizNueva a matrizVieja para repetir ciclo
     for laFila in range(0, cantFilas):
         for laColumna in range(0, cantColumnas):
             matrizVieja[laFila][laColumna] = matrizNueva[laFila][laColumna]
 
 
-def manejarPausa(estaPausado, estaCorriendo):
-    # if not estaPausado:
-    # print("NO esta en pausa")
+def manejarPausa(estaPausado):
 
+    print("manejarPausa")
     radioCirculo = 20
     anchoCirculo = 10
 
     while True:
-        pygame.time.delay(200)
+
         for unEvento in pygame.event.get():
             if unEvento.type == pygame.KEYDOWN:
                 estaPausado = not estaPausado
+                print("El estado de PAUSA es: " + str(estaPausado))
+            if unEvento.type == pygame.QUIT:
+                pygame.quit()
+            if unEvento.type == pygame.MOUSEBUTTONDOWN:
+                modificarCelda(pygame.mouse.get_pos())
 
         if not estaPausado:
-            pygame.draw.circle(ventana, (0, 255, 0), (850, 50), radioCirculo, anchoCirculo)
+            # NO está en pausa
+            pygame.draw.circle(ventana, (50, 255, 50), (850, 50), radioCirculo, anchoCirculo)
             return estaPausado
-        # print("SI esta en pausa")
 
-        pygame.draw.circle(ventana, (255, 0, 0), (850, 50), radioCirculo, anchoCirculo)
+        # SI está en pausa
+        pygame.draw.circle(ventana, (255, 40, 40), (850, 50), radioCirculo, anchoCirculo)
 
         # Actualizar display
         pygame.display.update()
+
+        pygame.time.delay(200)
+
+
+def modificarCelda(unaPos):
+    print("modificarCelda")
+    posX = unaPos[0]
+    posY = unaPos[1]
+
+    for laFila in range(0, cantFilas):
+        for laColumna in range(0, cantColumnas):
+            posXEsperada = x + laColumna * (ancho + 3)
+            posYEsperada = y + laFila * (alto + 3)
+            if posXEsperada < posX < posXEsperada + ancho and posYEsperada < posY < posYEsperada + alto:
+                print("Tocaste un cuadrado: Fila: " + str(laFila) + " Columna:" + str(laColumna))
+                if matrizVieja[laFila][laColumna] == 1:
+                    matrizVieja[laFila][laColumna] = 0
+                else:
+                    matrizVieja[laFila][laColumna] = 1
+                generarMatrizVieja()
+                return
+    print("No tocaste ningun cuadrado")
 
 
 # Variables Importantes [Globales]
@@ -161,15 +192,19 @@ ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 generarMatrizPrimeraVez()
 pygame.display.update()
 
-
 # Bucle infinito
 while run:
 
-    estaEnPausa = manejarPausa(estaEnPausa, run)
+    estaEnPausa = manejarPausa(estaEnPausa)
 
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             run = False
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            modificarCelda(pygame.mouse.get_pos())
+            continue
+
+    printearMatrices()
 
     generarMatrizVieja()
 
@@ -180,7 +215,7 @@ while run:
     # Actualizar display
     pygame.display.update()
 
-    pygame.time.delay(segundosDelay * 200)
+    pygame.time.delay(segundosDelay * 1000)
 
 pygame.quit()
 
