@@ -7,7 +7,7 @@ Es un juego no muy complejo de codear pero que genera comportamiento bastante co
 Para una celda 'viva':
   - Si tiene uno o ningun vecino muere.
   - Si tiene cuatro o mas vecinos tambien muere.
-  - Si tiene 3 o 2 vecinos.
+  - Si tiene 3 o 2 vecinos se mantiene viva.
 
 Para una celda 'muerta':
   - Si tiene 3 vecinos pasa a vivir.
