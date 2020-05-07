@@ -5,29 +5,28 @@ pygame.init()
 
 
 # Funciones
-
-def hacerUnLog(unString):  # Incompleto
+def hacerUnLog(unString):
     # Dia y hora actuales
-    now = datetime.now()
+    fecha = datetime.now()
+    print(str(fecha.timetuple()[3]) + ":"
+          + str(fecha.timetuple()[4]) + ":"
+          + str(fecha.timetuple()[5]) + " " + unString)
 
-    timestamp = datetime.timestamp(now)
-    print("timestamp =", timestamp)
 
-
-def printearMatrizNueva():
-    print("Matriz nueva: ")
+def hacerUnLogearMatrizNueva():
+    hacerUnLog("Matriz nueva: ")
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
             print(matrizNueva[filaFuncion][columnaFuncion], end="")
-        print("")
+        hacerUnLog("")
 
 
-def printearMatrizVieja():
-    print("Matriz vieja: ")
+def hacerUnLogearMatrizVieja():
+    hacerUnLog("Matriz vieja: ")
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
             print(matrizVieja[filaFuncion][columnaFuncion], end="")
-        print("")
+        hacerUnLog("")
 
 
 def vecinosVivosdDe(matriz, posicion):
@@ -49,7 +48,7 @@ def vecinosVivosdDe(matriz, posicion):
 
 
 def mostrarMatrizNueva():
-    print("mostrarMatrizNueva")
+    hacerUnLog("mostrarMatrizNueva")
     # Generar matriz de cuadrados
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
@@ -60,7 +59,7 @@ def mostrarMatrizNueva():
                 colores = colorVivo
 
             dibujarRectangulo(colores, columnaFuncion, filaFuncion)
-    printearMatrizNueva()
+    # hacerUnLogearMatrizNueva()
 
 
 def dibujarRectangulo(colores, columna, fila):
@@ -71,7 +70,7 @@ def dibujarRectangulo(colores, columna, fila):
 
 
 def generarMatrizNueva():
-    print("generarMatrizNueva")
+    hacerUnLog("generarMatrizNueva")
     # Generar matrizNueva (basandose en datos de matrizVieja)
     for laFila in range(0, cantFilas):
         for laColumna in range(0, cantColumnas):
@@ -91,7 +90,7 @@ def generarMatrizNueva():
 
 
 def generarMatrizVieja():
-    print("generarMatrizVieja")
+    hacerUnLog("generarMatrizVieja")
     # Generar matriz de cuadrados
     for filaFuncion in range(0, cantFilas):
         for columnaFuncion in range(0, cantColumnas):
@@ -111,7 +110,7 @@ def generarMatrizVieja():
 
 
 def pasarMatrizNuevaAVieja():
-    print("pasarMatrizNuevaAVieja")
+    hacerUnLog("pasarMatrizNuevaAVieja")
     # Pasar todos los datos de matrizNueva a matrizVieja para repetir ciclo
     for laFila in range(0, cantFilas):
         for laColumna in range(0, cantColumnas):
@@ -119,7 +118,7 @@ def pasarMatrizNuevaAVieja():
 
 
 def manejarPausa(estaPausado):
-    print("manejarPausa")
+    hacerUnLog("manejarPausa")
     radioCirculo = 20
     anchoCirculo = 10
 
@@ -128,7 +127,7 @@ def manejarPausa(estaPausado):
         for unEvento in pygame.event.get():
             if unEvento.type == pygame.KEYDOWN:
                 estaPausado = not estaPausado
-                print("El estado de PAUSA es: " + str(estaPausado))
+                hacerUnLog("El estado de PAUSA es: " + str(estaPausado))
             if unEvento.type == pygame.QUIT:
                 pygame.quit()
             if unEvento.type == pygame.MOUSEBUTTONDOWN:
@@ -136,11 +135,11 @@ def manejarPausa(estaPausado):
 
         if not estaPausado:
             # NO está en pausa
-            pygame.draw.circle(ventana, (50, 255, 50), (850, 50), radioCirculo, anchoCirculo)
+            generarCirculo((50, 255, 50), radioCirculo, anchoCirculo)
             return estaPausado
 
         # SI está en pausa
-        pygame.draw.circle(ventana, (255, 40, 40), (850, 50), radioCirculo, anchoCirculo)
+        generarCirculo((255, 40, 40), radioCirculo, anchoCirculo)
 
         # Actualizar display
         pygame.display.update()
@@ -148,8 +147,12 @@ def manejarPausa(estaPausado):
         pygame.time.delay(200)
 
 
+def generarCirculo(color, radio, ancho):
+    pygame.draw.circle(ventana, color, (850, 50), radio, ancho)
+
+
 def modificarCelda(unaPos):
-    print("modificarCelda")
+    hacerUnLog("modificarCelda")
     posX = unaPos[0]
     posY = unaPos[1]
 
@@ -158,17 +161,25 @@ def modificarCelda(unaPos):
             posXEsperada = x + laColumna * (ancho + 3)
             posYEsperada = y + laFila * (alto + 3)
             if posXEsperada < posX < posXEsperada + ancho and posYEsperada < posY < posYEsperada + alto:
-                print("Tocaste un cuadrado: Fila: " + str(laFila) + " Columna:" + str(laColumna))
+                hacerUnLog("Tocaste un cuadrado: Fila: " + str(laFila) + " Columna:" + str(laColumna))
                 if matrizVieja[laFila][laColumna] == 1:
                     matrizVieja[laFila][laColumna] = 0
-                    print("Dibujando cuadrado.. de color muerto")
+                    hacerUnLog("Dibujando cuadrado.. de color muerto")
                     dibujarRectangulo(colorMuerto, laColumna, laFila)
                 else:
-                    print("Dibujando cuadrado.. de color vivo")
+                    hacerUnLog("Dibujando cuadrado.. de color vivo")
                     matrizVieja[laFila][laColumna] = 1
                     dibujarRectangulo(colorVivo, laColumna, laFila)
                 return
-    print("No tocaste ningun cuadrado")
+    hacerUnLog("No tocaste ningun cuadrado")
+
+
+def leerArchivo():  # Prueba
+    newFileBytes = [123, 3, 255, 0, 100]
+    archivo = open("Array.txt", "wb")
+
+    matrizArchivo = bytes(newFileBytes)
+    archivo.write(matrizArchivo)
 
 
 # Variables Importantes [Globales]
@@ -179,24 +190,32 @@ y = 20
 ancho = 10
 alto = 10
 # Matriz
-cantFilas = 60  # Default 60
+cantFilas = 60  # Default 60 # fixear problema con rectangulos
 cantColumnas = 60
 # Configuracion
-anchoVentana = 900
+anchoVentana = 900  # Default 900x900
 altoVentana = 900
 segundosDelay = 1
 run = True
 estaEnPausa = True
-colorMuerto = (100, 100, 100)
-colorVivo = (255, 255, 255)
+colorMuerto = (50, 50, 50)
+colorVivo = (255, 50, 50)
 
 pygame.display.set_caption("El juego de la vida de Conway")
 
-bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
-                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
-                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
+# bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
+#                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
+#                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
 
-# bloquesGrises = [(0, 0)]
+bloquesGrises = []
+
+for unaFila in range(10, 40):
+    tupla = (10, unaFila)
+    bloquesGrises.append(tupla)
+
+for unaFila in range(10, 40):
+    tupla = (40, unaFila)
+    bloquesGrises.append(tupla)
 
 matrizVieja = [[0 for vx in range(cantFilas)] for vy in range(cantColumnas)]
 matrizNueva = [[0 for nx in range(cantFilas)] for ny in range(cantColumnas)]
@@ -206,6 +225,8 @@ ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 
 generarMatrizVieja()
 pygame.display.update()
+
+leerArchivo()
 
 # Bucle infinito
 while run:
@@ -228,13 +249,13 @@ while run:
     # Actualizar display
     pygame.display.update()
 
-    pygame.time.delay(segundosDelay * 200)
+    pygame.time.delay(segundosDelay * 300)
 
 pygame.quit()
 
 '''
 # mouse = pygame.mouse.get_pos()
-# print(mouse)
+# hacerUnLog(mouse)
 
 for unEvento in pygame.event.get():
     if unEvento.type == pygame.QUIT:
