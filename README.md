@@ -1,7 +1,7 @@
 # El juego de la vida de Conway
-Mas info: https://bitstorm.org/gameoflife/
+**Es un juego no muy complejo de codear pero que genera comportamiento bastante complejo a partir de reglas bastante simples.**
 
-Es un juego no muy complejo de codear pero que genera comportamiento bastante complejo a partir de reglas bastante simples.
+Mas info: https://bitstorm.org/gameoflife/
 
 #### Reglas:
 Para una celda 'viva':
