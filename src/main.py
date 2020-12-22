@@ -1,8 +1,6 @@
 import pygame
 from datetime import datetime
 
-pygame.init()
-
 
 # Funciones
 def hacerUnLog(unString):
@@ -234,6 +232,8 @@ def clickearBotonNaranja(unaPos):
         hacerUnLog("Clickeaste boton naranja")
 
 
+pygame.init()
+
 # Comienza ejecucion
 
 # Variables Importantes [Globales]
@@ -241,11 +241,11 @@ def clickearBotonNaranja(unaPos):
 x = 20
 y = 20
 # Tamaño bloques
-ancho = 10
-alto = 10
+ancho = 7
+alto = 7
 # Matriz
-cantFilas = 70  # Default 60 # fixear problema con rectangulos
-cantColumnas = 70
+cantFilas = 80  # Default 60 # fixear problema con rectangulos
+cantColumnas = 80
 # Configuracion
 anchoVentana = 1000  # Default 900x900
 altoVentana = 1000
