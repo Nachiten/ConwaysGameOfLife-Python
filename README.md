@@ -12,3 +12,7 @@ Para una celda 'viva':
 Para una celda 'muerta':
   - Si tiene 3 vecinos pasa a vivir.
   - En cualquier otro caso queda muerta.
+
+# Changelog
+*Version 1.0* : 
+Version Inicial. Se permite pausar y continuar. Botones Celeste y naranja son inutiles.

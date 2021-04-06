@@ -244,11 +244,11 @@ y = 20
 ancho = 7
 alto = 7
 # Matriz
-cantFilas = 80  # Default 60 # fixear problema con rectangulos
-cantColumnas = 80
+cantFilas = 50  # Default 60 # fixear problema con rectangulos
+cantColumnas = 50
 # Configuracion
-anchoVentana = 1000  # Default 900x900
-altoVentana = 1000
+anchoVentana = 700  # Default 900x900
+altoVentana = 700
 segundosDelay = 1
 run = True
 estaEnPausa = True
@@ -282,7 +282,7 @@ ventana = pygame.display.set_mode((anchoVentana, altoVentana))
 generarMatrizVieja()
 pygame.display.update()
 
-leerArchivo()
+# leerArchivo()
 
 generarBotonCeleste()
 generarBotonNaranja()
