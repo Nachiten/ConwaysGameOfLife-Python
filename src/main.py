@@ -257,9 +257,11 @@ colorVivo = (255, 50, 50)
 
 pygame.display.set_caption("El juego de la vida de Conway")
 
-bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
-                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
-                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
+# bloquesGrises = [(2, 2), (2, 4), (25, 29), (25, 28), (25, 27), (25, 26), (25, 25), (0, 0), (0, 1), (0, 2), (1, 1),
+#                 (1, 0), (15, 16), (15, 17), (15, 18), (15, 19), (16, 16), (16, 17), (16, 18), (16, 19), (17, 16),
+#                 (17, 17), (17, 18), (17, 19), (17, 20), (17, 21), (17, 22), (17, 23), (17, 24), (17, 25), (17, 26)]
+
+bloquesGrises = [(10,10)]
 
 cantBloques = 1
 desde = 30
@@ -269,7 +271,8 @@ for unaFila in range(0, cantColumnas):
     if 10 < unaFila < 20:
 
         for unBloque in range(desde, cantBloques + desde):
-            bloquesGrises.append((unaFila, unBloque))
+            pass
+            # bloquesGrises.append((unaFila, unBloque))
 
         cantBloques += 1
 
